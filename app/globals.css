@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+:root {
+  /* Oga Mechanic Light Theme */
+  --background: #f9fafb; /* Gray-50 */
+  --foreground: #1f2937; /* Gray-800 */
+  
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+  
+  --primary: #D30309;
+  --primary-foreground: #ffffff;
+  
+  --secondary: #e5e7eb; /* Gray-200 */
+  --secondary-foreground: #111827;
+  
+  --muted: #f3f4f6; /* Gray-100 */
+  --muted-foreground: #6b7280; /* Gray-500 */
+  
+  --accent: #fecaca; /* Red-200 (Subtle tint) */
+  --accent-foreground: #7f1d1d; /* Red-900 */
+  
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #D30309;
+  
+  --radius: 1rem; /* More rounded for mobile app feel */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-radius: var(--radius);
+  
+  /* Custom Animations */
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.5s ease-out;
+  --animate-pulse-slow: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  
+  @keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @keyframes slide-up {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-fira-sans), var(--font-geist), sans-serif;
+  antialiased: true;
+}
+
+/* Custom Utilities for Glassmorphism */
+.glass {
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
