@@ -1,11 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { images, icons } from "@/constant";
+import ComingSoonModal from "@/components/ui/ComingSoonModal";
 
 const GetApp = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <section className="py-20 lg:py-[160px] bg-white">
       <div className="container mx-auto px-6">
@@ -56,35 +59,31 @@ const GetApp = () => {
 
               {/* Store Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <motion.a
-                  href="https://apps.apple.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <motion.button
+                  onClick={() => setShowModal(true)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center justify-center gap-3 px-6 py-3 bg-white text-black rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow w-full sm:w-auto"
+                  className="flex items-center justify-center gap-3 px-6 py-3 bg-white text-black rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow w-full sm:w-auto cursor-pointer"
                 >
                   <Image src={icons.apple} alt="" width={28} height={28} className="flex-shrink-0" />
                   <div className="text-left">
                     <div className="text-xs text-gray-600">Download on the</div>
                     <div className="text-base font-bold">App Store</div>
                   </div>
-                </motion.a>
+                </motion.button>
 
-                <motion.a
-                  href="https://play.google.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <motion.button
+                  onClick={() => setShowModal(true)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center justify-center gap-3 px-6 py-3 bg-white text-black rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow w-full sm:w-auto"
+                  className="flex items-center justify-center gap-3 px-6 py-3 bg-white text-black rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow w-full sm:w-auto cursor-pointer"
                 >
                   <Image src={icons.google} alt="" width={28} height={28} className="flex-shrink-0" />
                   <div className="text-left">
                     <div className="text-xs text-gray-600">Get it on</div>
                     <div className="text-base font-bold">Google Play</div>
                   </div>
-                </motion.a>
+                </motion.button>
               </div>
             </motion.div>
           </div>
@@ -112,6 +111,9 @@ const GetApp = () => {
 
         </div>
       </div>
+      
+      {/* Modal */}
+      <ComingSoonModal isOpen={showModal} onClose={() => setShowModal(false)} />
     </section>
   );
 };

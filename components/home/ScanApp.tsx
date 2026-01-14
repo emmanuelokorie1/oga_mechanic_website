@@ -1,11 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { QrCode } from "lucide-react";
 import { images, icons } from "@/constant";
+import ComingSoonModal from "@/components/ui/ComingSoonModal";
 
 const ScanApp = () => {
+    const [showModal, setShowModal] = useState(false);
+
     return (
         <section className="py-12 md:py-24 px-4 md:px-8 bg-white relative overflow-hidden">
             <div className="container mx-auto">
@@ -44,12 +48,18 @@ const ScanApp = () => {
                                 </p>
                                 
                                 <div className="flex items-center justify-center md:justify-start gap-3">
-                                     <a href="#" className="bg-white p-2.5 rounded-xl cursor-pointer hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-sm">
+                                     <button 
+                                        onClick={() => setShowModal(true)}
+                                        className="bg-white p-2.5 rounded-xl cursor-pointer hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-sm"
+                                     >
                                         <Image src={icons.google} alt="Play Store" className="w-6 h-6 md:w-7 md:h-7" />
-                                     </a>
-                                     <a href="#" className="bg-white p-2.5 rounded-xl cursor-pointer hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-sm">
+                                     </button>
+                                     <button 
+                                        onClick={() => setShowModal(true)}
+                                        className="bg-white p-2.5 rounded-xl cursor-pointer hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-sm"
+                                     >
                                         <Image src={icons.apple} alt="App Store" className="w-6 h-6 md:w-7 md:h-7" />
-                                     </a>
+                                     </button>
                                 </div>
                             </div>
                         </div>
@@ -75,6 +85,9 @@ const ScanApp = () => {
 
                 </div>
             </div>
+
+             {/* Modal */}
+             <ComingSoonModal isOpen={showModal} onClose={() => setShowModal(false)} />
         </section>
     );
 };

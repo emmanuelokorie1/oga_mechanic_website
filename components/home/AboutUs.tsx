@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CTAButton } from '../ui/CTAButton';
+import { routes } from "@/constant/routes";
 
 const stats = [
     { value: '2.5K', suffix: '+', label: 'Ride bookings', color: 'text-primary' },
@@ -80,7 +81,7 @@ const AboutUs = () => {
                             <div className="w-auto">
                                 <CTAButton
                                     text="Explore services"
-                                    href="#services"
+                                    href={routes.services}
                                     className="bg-transparent text-primary border border-primary w-auto justify-between"
                                     classNameIcon="bg-primary text-white"
                                 />

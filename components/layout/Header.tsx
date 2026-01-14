@@ -30,6 +30,10 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (pathname === routes.signup || pathname === routes.verifyOtp) {
+    return null;
+  }
+
   return (
     <>
       <header
@@ -59,11 +63,18 @@ const Header = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`text-sm font-medium transition-colors ${
+                    className={`relative text-[1.1rem] font-medium transition-colors ${
                       isActive ? "text-red-500" : "text-white hover:text-red-500"
                     }`}
                   >
                     {item.name}
+                    {isActive && (
+                      <motion.span
+                        layoutId="active-nav"
+                        className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500"
+                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                      />
+                    )}
                   </Link>
                 );
               })}
@@ -72,8 +83,9 @@ const Header = () => {
             {/* CTA Button */}
             <div className="hidden md:block">
               <CTAButton
-                  text="Get Started For Free"
-                  className="bg-white text-primary border border-primary"
+                  text="Get Started"
+                  href={routes.signup}
+                  className="bg-white text-primary border border-primary hover:bg-gray-50"
                   classNameIcon="bg-primary text-white rounded-lg p-2"
                 />
             </div>
@@ -127,6 +139,7 @@ const Header = () => {
               <div className="h-px bg-white/10 my-4" />
                <CTAButton
                 text="Get Started For Free"
+                href={routes.signup}
                 className="bg-white text-primary border border-primary"
                 classNameIcon="bg-primary text-white rounded-lg p-2"
               />

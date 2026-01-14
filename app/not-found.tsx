@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { routes } from "@/constant/routes";
 
 export default function NotFound() {
   return (
@@ -16,7 +17,7 @@ export default function NotFound() {
         text="Back to Home"
         className="bg-red-600 text-white border border-red-600 hover:bg-red-700"
         classNameIcon="bg-white text-red-600"
-        href="/"
+        href={routes.home}
       />
     </div>
   );

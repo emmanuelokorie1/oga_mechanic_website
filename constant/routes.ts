@@ -3,4 +3,6 @@ export const routes = {
     about: "/about",
     services: "/services",
     contact: "/contact",
+    signup: "/signup",
+    verifyOtp: "/verify-otp",
 };

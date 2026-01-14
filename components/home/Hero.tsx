@@ -1,14 +1,17 @@
-"use client";
-
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight, Download } from "lucide-react";
 import Image from "next/image";
 import { images } from "@/constant";
 import { useState, useEffect } from "react";
+import ComingSoonModal from "@/components/ui/ComingSoonModal";
+import { useRouter } from "next/navigation";
+import { routes } from "@/constant/routes";
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   const messages = [
     {
@@ -98,7 +101,8 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Button
                 size="lg"
-                className="group h-14 px-8 bg-primary hover:bg-red-700 text-white rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
+                onClick={() => setShowModal(true)}
+                className="group h-14 px-8 bg-primary hover:bg-red-700 text-white rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 cursor-pointer"
               >
                 <Download className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                 Download App
@@ -107,34 +111,15 @@ const Hero = () => {
               <Button
                 variant="outline"
                 size="lg"
-                className="group h-14 px-8 border-2 border-gray-200 hover:border-primary text-gray-700 hover:text-primary rounded-xl transition-all duration-300"
+                onClick={() => router.push(routes.services)}
+                className="group h-14 px-8 border-2 border-gray-200 hover:border-primary text-gray-700 hover:text-primary rounded-xl transition-all duration-300 cursor-pointer"
               >
                 Explore Services
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
 
-            {/* Trust Indicators */}
-            {/* <div className="flex items-center gap-8 pt-8 text-sm">
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-400 to-primary border-2 border-white"></div>
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 border-2 border-white"></div>
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-300 to-red-500 border-2 border-white"></div>
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">10k+</div>
-                  <div className="text-gray-500 text-xs">Active Users</div>
-                </div>
-              </div>
-              <div className="h-10 w-px bg-gray-200" />
-              <div>
-                <div className="flex items-center gap-1 text-yellow-500">
-                  ★★★★★
-                </div>
-                <div className="text-gray-500 text-xs mt-0.5">4.9 Rating</div>
-              </div>
-            </div> */}
+            
           </div>
 
           {/* Right Column: Image */}
@@ -158,6 +143,9 @@ const Hero = () => {
           </motion.div>
         </div>
       </div>
+      
+      {/* Modal */}
+      <ComingSoonModal isOpen={showModal} onClose={() => setShowModal(false)} />
     </section>
   );
 };

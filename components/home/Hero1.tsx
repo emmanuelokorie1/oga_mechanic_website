@@ -6,8 +6,13 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { videos, icons } from "@/constant";
 import { CTAButton } from "../ui/CTAButton";
+import { useState } from "react";
+import ComingSoonModal from "@/components/ui/ComingSoonModal";
+import { routes } from "@/constant/routes";
 
 const Hero1 = () => {
+    const [showModal, setShowModal] = useState(false);
+
     return (
         <section className="relative min-h-[85vh] flex items-center overflow-hidden">
             {/* Background Video/GIF */}
@@ -72,27 +77,6 @@ const Hero1 = () => {
                             <span className="text-red-500 font-bold"> Oga Mechanic</span> brings every auto service together.
                         </p>
 
-                        {/* Feature Pills */}
-                        {/* <div className="flex flex-wrap gap-3">
-                            <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                                <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span className="text-sm font-medium text-white">Simple</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                                <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                                <span className="text-sm font-medium text-white">Fast</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                                <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
-                                <span className="text-sm font-medium text-white">Reliable</span>
-                            </div>
-                        </div> */}
                     </motion.div>
 
                     {/* CTA Buttons */}
@@ -103,7 +87,10 @@ const Hero1 = () => {
                         className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
                     >
                         {/* Download App Button */}
-                        <button className="group cursor-pointer flex items-center justify-between sm:justify-start gap-3 p-1 pl-4 bg-white hover:bg-gray-100 text-primary rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 w-full sm:w-auto">
+                        <button 
+                            onClick={() => setShowModal(true)}
+                            className="group cursor-pointer flex items-center justify-between sm:justify-start gap-3 p-1 pl-4 bg-white hover:bg-gray-100 text-primary rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 w-full sm:w-auto"
+                        >
                             <span className="text-base transition-transform duration-300 group-hover:translate-x-1">Download app</span>
                             <div className="flex items-center gap-1 px-3 py-2 border border-primary rounded-xl transition-all duration-300 group-hover:border-red-700 group-hover:bg-red-50">
                                 {/* Google Play Icon */}
@@ -128,6 +115,7 @@ const Hero1 = () => {
                         <div className="w-full sm:w-auto">
                             <CTAButton
                                 text="Explore services"
+                                href={routes.services}
                                 className="bg-transparent text-white border border-white w-full sm:w-auto justify-between sm:justify-start"
                                 classNameIcon="bg-white text-primary rounded-lg p-2"
                             />
@@ -135,6 +123,9 @@ const Hero1 = () => {
                     </motion.div>
                 </div>
             </div>
+            
+            {/* Modal */}
+            <ComingSoonModal isOpen={showModal} onClose={() => setShowModal(false)} />
         </section>
     );
 };

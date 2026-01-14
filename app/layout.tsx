@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Fira_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import Providers from "./providers";
+import { Toaster } from "react-hot-toast";
 
 const firaSans = Fira_Sans({
   subsets: ["latin"],
@@ -31,8 +33,11 @@ export default function RootLayout({
       <body
         className={`${firaSans.variable} ${geist.variable} antialiased font-sans`}
       >
-        <Header />
-        {children}
+        <Providers>
+          <Header />
+          {children}
+          <Toaster position="top-center" reverseOrder={false} />
+        </Providers>
       </body>
     </html>
   );

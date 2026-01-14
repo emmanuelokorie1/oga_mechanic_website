@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { CTAButton } from "../ui/CTAButton";
+import { routes } from "@/constant/routes";
 
 const steps = [
     {
@@ -63,6 +64,7 @@ const HowItWorks = () => {
 
                         <CTAButton
                             text="Register now"
+                            href={routes.signup}
                             className="bg-white text-primary border border-primary"
                             classNameIcon="bg-primary text-white rounded-lg p-2"
                         />

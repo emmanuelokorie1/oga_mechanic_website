@@ -13,15 +13,14 @@ const ContactUs = () => {
     return (
         <section id="contact" className="w-full bg-white">
             {/* Hero Section */}
-            <div className="relative h-[40vh] min-h-[300px] w-full flex items-center overflow-hidden">
+            <div className="relative mt-20 h-[350px] lg:h-[450px] w-full flex items-center overflow-hidden">
                 <Image
-                    src={images.heroImage}
+                    src={images.contactHero}
                     alt="Contact Us Background"
                     fill
                     className="object-cover"
                     priority
                 />
-                <div className="absolute inset-0 bg-black/60" /> {/* Dark overlay */}
                 <div className="container mx-auto px-6 relative z-10">
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
@@ -158,12 +157,12 @@ const ContactUs = () => {
                                     Oga Mechanic requires your contact information in order to assist with your enquiry. For more information about how your data will be used, as well as our privacy practices.
                                 </p>
 
-                                <div className="w-full">
+                                <div className="w-full md:w-[60%] mx-auto pt-8">
                                     <CTAButton
                                         text="Submit"
+                                        type="submit"
                                         className="bg-transparent text-primary border border-primary w-full justify-between hover:bg-red-50"
                                         classNameIcon="bg-primary text-white"
-                                        href="#"
                                     />
                                 </div>
                             </form>
