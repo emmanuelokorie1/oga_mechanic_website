@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  devIndicators: {
+    buildActivity: false,
+    appIsrStatus: false,
+  },
 
 } as NextConfig;
 
