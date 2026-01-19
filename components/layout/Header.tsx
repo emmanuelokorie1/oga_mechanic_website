@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useSpring } from "framer-motion";
 import { Menu, X, Phone, Mail } from "lucide-react";
 import Image from "next/image";
 import { icons } from "@/constant";
@@ -17,10 +17,25 @@ const navItems = [
   { name: "Contact us", href: routes.contact },
 ];
 
+import { useLenis } from "lenis/react";
+
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  
+  const scaleX = useSpring(0, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  useLenis(({ progress, limit }) => {
+    // If the page is not scrollable (limit === 0), keep the bar empty.
+    // Also ensures we don't get NaN or Infinity
+    const safeProgress = limit <= 0 ? 0 : progress;
+    scaleX.set(safeProgress || 0);
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,56 +54,25 @@ const Header = () => {
     return null;
   }
 
-  const isHome = pathname === routes.home;
-
   return (
     <>
       <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: "circOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed z-50 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex items-center left-1/2 -translate-x-1/2 ${
           scrolled
-            ? "bg-black/80 backdrop-blur-xl py-3 shadow-lg shadow-black/50"
-            : "bg-transparent py-5"
+            ? "top-4 w-[90%] md:w-[70%] max-w-6xl rounded-full bg-black/60 backdrop-blur-xl border border-white/10 shadow-lg py-1 overflow-hidden"
+            : "top-0 w-full bg-transparent py-5"
         }`}
       >
-        {/* Gradient Border Line */}
-        <div
-          className={`absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-opacity duration-300 ${
-            scrolled ? "opacity-100" : "opacity-0"
-          }`}
-        />
-
         <div className="container mx-auto px-6">
-          <motion.nav
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.1,
-                  delayChildren: 0.2, // Wait for header slide down slightly
-                },
-              },
-            }}
-            className="flex items-center justify-between"
-          >
+          <nav className="flex items-center justify-between">
             {/* Logo */}
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, x: -20 },
-                visible: { opacity: 1, x: 0 },
-              }}
-            >
+            <div>
               <Link
                 href="/"
                 className="relative z-50 block"
               >
                 <Image
-                  src={isHome ? icons.logo : icons.logo1}
+                  src={icons.logo}
                   alt="Oga Mechanic Logo"
                   width={90}
                   height={90}
@@ -96,16 +80,10 @@ const Header = () => {
                   priority
                 />
               </Link>
-            </motion.div>
+            </div>
 
             {/* Desktop Nav */}
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: -10 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              className="hidden md:flex items-center gap-1"
-            >
+            <div className="hidden md:flex items-center gap-1">
               <div className="flex items-center gap-1 bg-black/40 backdrop-blur-sm px-2 py-1.5 rounded-full border border-white/5 shadow-inner shadow-white/5">
                 {navItems.map((item) => {
                   const isActive = pathname === item.href;
@@ -127,7 +105,7 @@ const Header = () => {
                         />
                       )}
                       <span
-                        className={`relative z-10 transition-colors duration-200 ${
+                        className={`relative z-10 cursor-pointer transition-colors duration-200 ${
                           isActive
                             ? "text-white"
                             : "text-gray-300 group-hover:text-white"
@@ -139,16 +117,10 @@ const Header = () => {
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
 
             {/* CTA Button */}
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, x: 20 },
-                visible: { opacity: 1, x: 0 },
-              }}
-              className="hidden md:block"
-            >
+            <div className="hidden md:block">
               <CTAButton
                 text="Get Started"
                 href={routes.signup}
@@ -161,14 +133,10 @@ const Header = () => {
                   scrolled ? "bg-primary text-white" : "bg-white text-primary"
                 }
               />
-            </motion.div>
+            </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
-              variants={{
-                hidden: { opacity: 0, scale: 0.8 },
-                visible: { opacity: 1, scale: 1 },
-              }}
+            <button
               className="md:hidden relative z-50 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-white hover:bg-white/20 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
@@ -177,9 +145,14 @@ const Header = () => {
               ) : (
                 <Menu className="w-5 h-5" />
               )}
-            </motion.button>
-          </motion.nav>
+            </button>
+          </nav>
         </div>
+
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 h-[3px] bg-primary origin-left"
+          style={{ scaleX }}
+        />
       </motion.header>
 
       {/* Mobile Menu Overlay */}

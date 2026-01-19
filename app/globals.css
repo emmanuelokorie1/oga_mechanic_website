@@ -102,3 +102,22 @@ body {
   border-color: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
 }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111827; /* Gray-900 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #374151; /* Gray-700 */
+  border-radius: 5px;
+  border: 2px solid #111827;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D30309; /* Primary Red */
+}

@@ -43,8 +43,7 @@ const SignupPage = () => {
         role: "primary_user",
       };
 
-      const baseUrl =
-        process.env.NEXT_PUBLIC_API_URL;
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
       const response = await fetch(`${baseUrl}/users/register/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -83,7 +82,7 @@ const SignupPage = () => {
   return (
     <div className="flex min-h-screen bg-white">
       {/* Left Side - Image (Hidden on Mobile) */}
-      <div className="hidden lg:block w-[40%] relative">
+      <div className="hidden lg:block w-[40%] relative bg-black/20">
         <Image
           src={images.signup}
           alt="Signup Cover"

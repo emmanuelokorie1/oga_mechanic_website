@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { videos, icons } from "@/constant";
+// Imports updated
+import { videos, icons, images } from "@/constant";
 import { CTAButton } from "../ui/CTAButton";
 import { useState } from "react";
 import ComingSoonModal from "@/components/ui/ComingSoonModal";
@@ -12,20 +13,37 @@ import { routes } from "@/constant/routes";
 
 const Hero1 = () => {
     const [showModal, setShowModal] = useState(false);
+    const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
     return (
         <section className="relative min-h-[85vh] flex items-center overflow-hidden">
             {/* Background Video/GIF */}
             <div className="absolute inset-0 z-0">
+                {/* Fallback Image */}
                 <Image
-                    src={videos.heroVideo}
-                    alt="Mechanic working"
+                    src={images.homeHero}
+                    alt="Mechanic working fallback"
                     fill
                     className="object-cover"
                     priority
                 />
-                {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-black/60" />
+            </div>
+
+             <div className="absolute inset-0 z-0">
+                
+                {/* Main Video/GIF */}
+                <Image
+                    src={videos.heroVideo}
+                    alt="Mechanic working"
+                    fill
+                    className={`object-cover transition-opacity duration-700 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    priority
+                    onLoad={() => setIsVideoLoaded(true)}
+                />
+
+
+                {/* Dark Overlay - Only visible when video loads */}
+                <div className={`absolute inset-0 bg-black/60 transition-opacity duration-700 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`} />
             </div>
 
             <div className="container mx-auto px-6 py-20 relative z-10 mt-[80px] lg:mt-0">

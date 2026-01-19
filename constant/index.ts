@@ -15,7 +15,7 @@ import keep from "@/assets/images/keep.svg"
 import serviceCar from "@/assets/images/serviceCar.svg"
 import signup from "@/assets/images/signup.svg"
 import contactHero from "@/assets/images/contactHero.svg"
-// import contactHero from "@/assets/images/cont"
+import homeHero from "@/assets/images/homeHero.svg"
 
 //services
 import expert from "@/assets/images/services/expert.svg"
@@ -59,7 +59,8 @@ export const images = {
     rental,
     ride,
     signup,
-    contactHero
+    contactHero,
+    homeHero
 }
 
 export const icons = {
@@ -73,3 +74,5 @@ export const icons = {
 export const videos = {
     heroVideo
 }
+
+export * from './routes';

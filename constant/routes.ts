@@ -5,4 +5,6 @@ export const routes = {
     contact: "/contact",
     signup: "/signup",
     verifyOtp: "/verify-otp",
+    terms: "/terms",
+    privacy: "/privacy",
 };

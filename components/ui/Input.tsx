@@ -2,10 +2,11 @@ import React from "react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  error?: string | boolean;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, id, className = "", ...props }, ref) => {
+  ({ label, id, error, className = "", ...props }, ref) => {
     return (
       <div className="space-y-2">
         {label && (
@@ -16,9 +17,16 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={id}
-          className={`w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-gray-400 ${className}`}
+          className={`w-full px-4 py-3 rounded-lg border focus:ring-1 outline-none transition-all placeholder:text-gray-400 ${
+            error
+              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+              : "border-gray-200 focus:border-primary focus:ring-primary"
+          } ${className}`}
           {...props}
         />
+        {error && typeof error === "string" && (
+          <p className="text-sm text-red-500 mt-1">{error}</p>
+        )}
       </div>
     );
   }
