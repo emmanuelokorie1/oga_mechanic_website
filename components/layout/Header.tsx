@@ -18,12 +18,13 @@ const navItems = [
 ];
 
 import { useLenis } from "lenis/react";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  
+  const router = useRouter();
   const scaleX = useSpring(0, {
     stiffness: 100,
     damping: 30,
@@ -57,11 +58,10 @@ const Header = () => {
   return (
     <>
       <motion.header
-        className={`fixed z-50 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex items-center left-1/2 -translate-x-1/2 ${
-          scrolled
-            ? "top-4 w-[90%] md:w-[70%] max-w-6xl rounded-full bg-black/60 backdrop-blur-xl border border-white/10 shadow-lg py-1 overflow-hidden"
-            : "top-0 w-full bg-transparent py-5"
-        }`}
+        className={`fixed z-50 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex items-center left-1/2 -translate-x-1/2 ${scrolled
+          ? "top-4 w-[90%] md:w-[70%] max-w-6xl rounded-full bg-black/60 backdrop-blur-xl border border-white/10 shadow-lg py-1 overflow-hidden"
+          : "top-0 w-full bg-transparent py-5"
+          }`}
       >
         <div className="container mx-auto px-6">
           <nav className="flex items-center justify-between">
@@ -105,11 +105,10 @@ const Header = () => {
                         />
                       )}
                       <span
-                        className={`relative z-10 cursor-pointer transition-colors duration-200 ${
-                          isActive
-                            ? "text-white"
-                            : "text-gray-300 group-hover:text-white"
-                        }`}
+                        className={`relative z-10 cursor-pointer transition-colors duration-200 ${isActive
+                          ? "text-white"
+                          : "text-gray-300 group-hover:text-white"
+                          }`}
                       >
                         {item.name}
                       </span>
@@ -124,11 +123,10 @@ const Header = () => {
               <CTAButton
                 text="Get Started"
                 href={routes.signup}
-                className={`border transition-all duration-300 ${
-                  scrolled
-                    ? "bg-white text-primary border-white hover:bg-gray-100"
-                    : "bg-primary text-white border-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(211,3,9,0.3)]"
-                }`}
+                className={`border transition-all duration-300 ${scrolled
+                  ? "bg-white text-primary border-white hover:bg-gray-100"
+                  : "bg-primary text-white border-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(211,3,9,0.3)]"
+                  }`}
                 classNameIcon={
                   scrolled ? "bg-primary text-white" : "bg-white text-primary"
                 }
@@ -170,7 +168,7 @@ const Header = () => {
             <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="flex flex-col items-center justify-between h-full py-24 w-full max-w-sm px-6 relative z-10">
-              
+
               {/* Menu Items */}
               <div className="flex flex-col gap-6 w-full text-center mt-12">
                 {navItems.map((item, index) => {
@@ -184,11 +182,10 @@ const Header = () => {
                     >
                       <Link
                         href={item.href}
-                        className={`text-4xl font-bold tracking-tight transition-all duration-300 ${
-                          isActive
-                            ? "text-primary scale-105"
-                            : "text-white/60 hover:text-white"
-                        }`}
+                        className={`text-4xl font-bold tracking-tight transition-all duration-300 ${isActive
+                          ? "text-primary scale-105"
+                          : "text-white/60 hover:text-white"
+                          }`}
                       >
                         {item.name}
                       </Link>
@@ -205,23 +202,32 @@ const Header = () => {
                 className="w-full flex flex-col gap-6"
               >
                 <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent w-full" />
-                
+
                 <div className="flex justify-center gap-6 text-white/50">
-                    <div className="flex items-center gap-2 text-sm">
-                        <Phone className="w-4 h-4" />
-                        <span>Support</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                        <Mail className="w-4 h-4" />
-                        <span>Contact</span>
-                    </div>
+                  <div className="flex items-center gap-2 text-sm" 
+                  onClick={() => { 
+                    router.push(routes.contact); 
+                    setMobileMenuOpen(false) }}
+                    >
+                    <Phone className="w-4 h-4" />
+                    <span>Support</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm"
+                    onClick={() => {
+                      router.push(routes.contact);
+                      setMobileMenuOpen(false)
+                    }}
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>Contact</span>
+                  </div>
                 </div>
 
                 <div className="flex justify-center">
                   <CTAButton
                     text="Get Started Now"
                     href={routes.signup}
-                    className="bg-primary text-white border-primary w-full justify-center py-4 text-lg shadow-[0_0_30px_rgba(211,3,9,0.3)] hover:shadow-[0_0_50px_rgba(211,3,9,0.5)] transition-shadow"
+                    className="bg-primary text-white rounded-full border-primary w-full justify-center py-3 text-lg shadow-[0_0_30px_rgba(211,3,9,0.3)] hover:shadow-[0_0_50px_rgba(211,3,9,0.5)] transition-shadow"
                     classNameIcon="bg-white text-primary"
                   />
                 </div>
