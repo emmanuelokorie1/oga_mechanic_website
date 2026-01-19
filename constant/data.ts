@@ -1,14 +1,14 @@
 import { Mail, MapPin, Phone } from "lucide-react";
-export const email = "info@ogamechanic.ng";
-export const phone = "+234 (01) 462 37827";
-export const phone2 = "+234 (0) 803 528 3267";
+export const email = "ogamechanicglobal@gmail.com";
+export const phone = "+234 706 755 6753";
+export const phone2 = "+234 706 755 6753";
 export const address = "29 Berkley Street, Lagos Island, Lagos.";
 
 export const socialLinks = [
-    { label: "Facebook", href: "https://www.facebook.com/ogamechanic", icon: "Facebook" },
-    { label: "Twitter", href: "https://twitter.com/ogamechanic", icon: "Twitter" },
-    { label: "Instagram", href: "https://www.instagram.com/ogamechanic", icon: "Instagram" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/company/ogamechanic", icon: "LinkedIn" }
+    { label: "Facebook", href: "https://www.facebook.com/ogamechanicglobal", icon: "Facebook" },
+    { label: "Twitter", href: "https://twitter.com/ogamechanicglobal", icon: "Twitter" },
+    { label: "Instagram", href: "https://www.instagram.com/ogamechanicglobal", icon: "Instagram" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/ogamechanicglobal", icon: "LinkedIn" }
 ];
 
 export const contactData = [

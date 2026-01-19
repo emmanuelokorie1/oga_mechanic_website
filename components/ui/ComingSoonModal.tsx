@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Construction } from "lucide-react";
-import Image from "next/image";
-import { images } from "@/constant";
+import { Smartphone, X, Mail, CheckCircle, Bell } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface ComingSoonModalProps {
   isOpen: boolean;
@@ -12,6 +11,63 @@ interface ComingSoonModalProps {
 }
 
 const ComingSoonModal: React.FC<ComingSoonModalProps> = ({ isOpen, onClose }) => {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!email) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              email: email,
+              subject: "New Newsletter Subscription",
+              message: `New subscription from: ${email}`
+          }),
+      });
+
+      if (response.ok) {
+        setIsSuccess(true);
+        toast.success("You're on the list! We'll notify you when we launch.");
+        setEmail("");
+      } else {
+         throw new Error("Failed to subscribe");
+      }
+    } catch (err) {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const resetState = () => {
+      onClose();
+      setTimeout(() => {
+          setIsSuccess(false);
+          setEmail("");
+          setError("");
+      }, 300);
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -21,48 +77,115 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({ isOpen, onClose }) =>
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={onClose}
+            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+            onClick={resetState}
           />
 
           {/* Modal Content */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6 text-center overflow-hidden"
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
           >
-            {/* Close Button */}
-             <button 
-                onClick={onClose}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-             >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-             </button>
+            {/* Simple Minimal Header */}
+            <div className="pt-8 pb-4 text-center px-6">
+                <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    {isSuccess ? (
+                        <CheckCircle className="w-8 h-8 text-primary" />
+                    ) : (
+                        <Smartphone className="w-8 h-8 text-primary" />
+                    )}
+                </div>
+                
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    {isSuccess ? "You're All Set!" : "Coming Soon"}
+                </h2>
+                <p className="text-gray-500 text-sm">
+                    {isSuccess ? "Keep an eye on your inbox." : "Get ready for the ultimate auto experience."}
+                </p>
 
-            <div className="mb-4 flex justify-center">
-              <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center">
-                 <Construction className="w-8 h-8 text-red-500" />
-              </div>
+                <button 
+                    onClick={resetState}
+                    className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                    <X className="w-5 h-5" />
+                </button>
             </div>
 
-            <h2 className="text-xl font-bold text-gray-900 mb-2">
-              Coming Soon!
-            </h2>
-            
-            <p className="text-gray-600 mb-6 text-sm leading-relaxed">
-              We are working hard to bring you the Oga Mechanic mobile app. Stay tuned for the launch on App Store and Google Play!
-            </p>
+            {/* Body */}
+            <div className="px-8 pb-8">
+                <AnimatePresence mode="wait">
+                    {isSuccess ? (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-center space-y-6"
+                        >
+                            <p className="text-gray-500 text-sm leading-relaxed">
+                                Thank you for your interest! We are working hard to bring Oga Mechanic to your device. We will send you an email as soon as we launch on the App Store and Google Play.
+                            </p>
+                            <button
+                                onClick={resetState}
+                                className="w-full bg-gray-100 text-gray-900 font-semibold py-3 rounded-lg hover:bg-gray-200 transition-colors"
+                            >
+                                Close
+                            </button>
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="space-y-6"
+                        >
+                            <p className="text-gray-500 text-center leading-relaxed text-sm">
+                                Be the first to know when our mobile app goes live. Sign up for early access and exclusive launch offers.
+                            </p>
 
-            <button
-               onClick={onClose}
-               className="w-full bg-[#D10000] cursor-pointer text-white font-bold py-3 rounded-xl hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl outline-none"
-            >
-              Got it
-            </button>
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                <div className="space-y-2">
+                                    <label htmlFor="email" className="text-xs font-semibold text-gray-700 uppercase tracking-wider ml-1">
+                                        Email Address
+                                    </label>
+                                    <div className="relative">
+                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            placeholder="you@example.com"
+                                            className={`w-full pl-10 pr-4 py-3 bg-white border rounded-lg outline-none focus:ring-2 focus:ring-primary/10 transition-all text-sm ${
+                                                error ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-primary"
+                                            }`}
+                                        />
+                                    </div>
+                                    {error && <p className="text-red-500 text-xs ml-1 font-medium">{error}</p>}
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+                                >
+                                    {isSubmitting ? (
+                                        <>
+                                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                            <span>Joining...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Bell className="w-4 h-4" />
+                                            <span>Notify Me When Launched</span>
+                                        </>
+                                    )}
+                                </button>
+                            </form>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       )}

@@ -157,10 +157,6 @@ const VerifyOtpPage = () => {
       {/* Right Side - Content */}
       <div className="w-full lg:w-[60%] bg-gray-50 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-12 relative">
 
-        <Link href={routes.signup} className="absolute top-8 left-8 text-gray-600 hover:text-gray-900 transition-colors">
-          <ArrowLeft className="w-6 h-6" />
-        </Link>
-
         {/* Logo */}
         <div onClick={() => router.back()} className="absolute top-8 cursor-pointer border border-gray-300 rounded-md p-2 left-8 text-gray-600 hover:text-gray-900 transition-colors">
           <ArrowLeft className="w-6 h-6" />

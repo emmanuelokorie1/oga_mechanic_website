@@ -1,37 +1,79 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { images } from "@/constant";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import toast from "react-hot-toast";
 import { contactData } from "@/constant/data";
 import { CTAButton } from "../../components/ui/CTAButton";
 import { Input } from "../../components/ui/Input";
 import { Textarea } from "../../components/ui/Textarea";
+import PageHero from "@/components/shared/PageHero";
+import { images } from "@/constant";
 
 const ContactUs = () => {
+    const formik = useFormik({
+        initialValues: {
+            firstName: "",
+            lastName: "",
+            company: "",
+            email: "",
+            phone: "",
+            message: "",
+        },
+        validationSchema: Yup.object({
+            firstName: Yup.string().required("First name is required"),
+            lastName: Yup.string().required("Last name is required"),
+            company: Yup.string(),
+            email: Yup.string().email("Invalid email address").required("Email is required"),
+            phone: Yup.string().required("Phone number is required"),
+            message: Yup.string().required("Message is required"),
+        }),
+        onSubmit: async (values, { setSubmitting, resetForm }) => {
+            try {
+                const response = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: `${values.firstName} ${values.lastName}`,
+                        email: values.email,
+                        message: `
+Name: ${values.firstName} ${values.lastName}
+Company: ${values.company || "N/A"}
+Phone: ${values.phone}
+Email: ${values.email}
+
+Message:
+${values.message}
+                        `,
+                        subject: `New Contact from ${values.firstName} ${values.lastName}` // Optional subject
+                    }),
+                });
+
+                if (response.ok) {
+                    toast.success("Message sent successfully! We'll get back to you soon.");
+                    resetForm();
+                } else {
+                    throw new Error("Failed to send message");
+                }
+            } catch (error) {
+                toast.error("Something went wrong. Please try again.");
+            } finally {
+                setSubmitting(false);
+            }
+        },
+    });
+
     return (
         <section id="contact" className="w-full bg-white">
             {/* Hero Section */}
-            <div className="relative mt-20 h-[350px] lg:h-[450px] w-full flex items-center overflow-hidden">
-                <Image
-                    src={images.contactHero}
-                    alt="Contact Us Background"
-                    fill
-                    className="object-cover"
-                    priority
-                />
-                <div className="container mx-auto px-6 relative z-10">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-4xl md:text-6xl font-bold text-white"
-                    >
-                        Contact Us
-                    </motion.h1>
-                </div>
-            </div>
+            <PageHero 
+                image={images.contactHero}
+                title="Contact Us"
+            />
 
             {/* Main Content */}
             <div className="container mx-auto px-6 py-16 lg:py-24">
@@ -110,19 +152,23 @@ const ContactUs = () => {
                         className="w-full lg:w-[60%]"
                     >
                         <div className="bg-white sm:p-6 p-4 md:p-8 rounded-2xl shadow-md border border-gray-100">
-                            <form className="space-y-6">
+                            <form onSubmit={formik.handleSubmit} className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <Input
                                         label="First name"
                                         type="text"
                                         id="firstName"
                                         placeholder="First name"
+                                        {...formik.getFieldProps("firstName")}
+                                        error={formik.touched.firstName && formik.errors.firstName}
                                     />
                                     <Input
                                         label="Last name"
                                         type="text"
                                         id="lastName"
                                         placeholder="Last name"
+                                        {...formik.getFieldProps("lastName")}
+                                        error={formik.touched.lastName && formik.errors.lastName}
                                     />
                                 </div>
 
@@ -131,6 +177,8 @@ const ContactUs = () => {
                                     type="text"
                                     id="company"
                                     placeholder="Enter company name"
+                                    {...formik.getFieldProps("company")}
+                                    error={formik.touched.company && formik.errors.company}
                                     />
 
                                 <Input
@@ -138,6 +186,8 @@ const ContactUs = () => {
                                     type="email"
                                     id="email"
                                     placeholder="you@company.com"
+                                    {...formik.getFieldProps("email")}
+                                    error={formik.touched.email && formik.errors.email}
                                 />
 
                                 <Input
@@ -145,12 +195,17 @@ const ContactUs = () => {
                                     type="tel"
                                     id="phone"
                                     placeholder="Enter contact number"
+                                    {...formik.getFieldProps("phone")}
+                                    error={formik.touched.phone && formik.errors.phone}
                                 />
 
                                 <Textarea
                                     label="Message"
                                     id="message"
                                     rows={4}
+                                    placeholder="How can we help you?"
+                                    {...formik.getFieldProps("message")}
+                                    error={formik.touched.message && formik.errors.message}
                                 />
 
                                 <p className="text-sm text-gray-500 leading-relaxed">
@@ -159,9 +214,10 @@ const ContactUs = () => {
 
                                 <div className="w-full md:w-[60%] mx-auto pt-8">
                                     <CTAButton
-                                        text="Submit"
+                                        text={formik.isSubmitting ? "Submitting..." : "Submit"}
                                         type="submit"
-                                        className="bg-transparent text-primary border border-primary w-full justify-between hover:bg-red-50"
+                                        disabled={formik.isSubmitting}
+                                        className="bg-transparent text-primary border border-primary w-full justify-between hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                         classNameIcon="bg-primary text-white"
                                     />
                                 </div>

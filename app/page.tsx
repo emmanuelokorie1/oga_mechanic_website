@@ -14,7 +14,6 @@ import ScanApp from "@/components/home/ScanApp";
 export default function Home() {
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900 selection:bg-red-500/30 selection:text-red-900">
-      
       <Hero1 />
       <AboutUs />
       <GetApp />
