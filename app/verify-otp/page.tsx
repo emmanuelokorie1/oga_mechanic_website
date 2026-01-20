@@ -17,7 +17,7 @@ const VerifyOtpPage = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [userEmail, setUserEmail] = useState("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(true);
 
   useEffect(() => {
     // Retrieve email from storage for context
@@ -142,8 +142,8 @@ const VerifyOtpPage = () => {
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Left Side - Image */}
-      <div className="hidden lg:block w-[40%] relative">
+      {/* Left Side - Image & overlay (Hidden on Mobile) */}
+      <div className="hidden lg:block w-[45%] relative overflow-hidden">
         <Image
           src={images.signup} // Reusing signup image for consistency
           alt="Verification Cover"
@@ -151,33 +151,45 @@ const VerifyOtpPage = () => {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+        
+        <div className="absolute bottom-0 left-0 p-12 text-white z-10">
+             <div className="mb-6">
+                <Image src={icons.logo} alt="Oga Mechanic" width={180} height={180} className="" />
+             </div>
+             <h2 className="text-4xl font-bold mb-4 leading-tight">Secure your account <br/> in seconds.</h2>
+             <p className="text-gray-300 text-lg max-w-md leading-relaxed">
+                Protecting your data and ensuring a safe experience is our top priority.
+             </p>
+        </div>
       </div>
 
       {/* Right Side - Content */}
-      <div className="w-full lg:w-[60%] bg-gray-50 flex flex-col justify-center px-8 md:px-16 lg:px-24 py-12 relative">
+      <div className="w-full lg:w-[55%] flex flex-col justify-center items-center px-6 py-12 lg:p-12 relative bg-white">
 
         {/* Logo */}
-        <div onClick={() => router.back()} className="absolute top-8 cursor-pointer border border-gray-300 rounded-md p-2 left-8 text-gray-600 hover:text-gray-900 transition-colors">
-          <ArrowLeft className="w-6 h-6" />
+        <div onClick={() => router.back()} className="absolute top-8 left-8 cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors">
+            <ArrowLeft className="w-6 h-6 text-gray-600" />
         </div>
 
         {/* Success Modal */}
         <SuccessModal isOpen={showSuccessModal} onClose={handleCloseModal} />
 
-        <div className="max-w-md w-full mx-auto">
+        <div className="max-w-md w-full mx-auto space-y-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Verification</h1>
-            <p className="text-gray-500 mb-8">
-              We sent a code to <span className="font-semibold text-gray-900">{userEmail || "your email"}</span>. Enter it below to verify your account.
-            </p>
+             <div className="text-center mb-10">
+                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Verify your email</h1>
+                <p className="text-gray-500 text-lg">
+                   We sent a code to <span className="font-semibold text-gray-900">{userEmail || "your email"}</span>. Enter it below to verify your account.
+                </p>
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="flex justify-between gap-2">
+              <div className="flex justify-between gap-2 sm:gap-4">
                 {otp.map((digit, index) => (
                   <input
                     key={index}
@@ -188,7 +200,7 @@ const VerifyOtpPage = () => {
                     onChange={(e) => handleChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
                     onPaste={handlePaste}
-                    className="w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold rounded-xl border border-gray-200 focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none transition-all bg-white text-gray-900"
+                    className="w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold rounded-xl border border-gray-200 focus:border-red-600 focus:ring-1 focus:ring-red-600 outline-none transition-all bg-gray-50 focus:bg-white text-gray-900"
                   />
                 ))}
               </div>
@@ -196,18 +208,18 @@ const VerifyOtpPage = () => {
               <button
                 type="submit"
                 disabled={mutation.isPending}
-                className="w-full bg-[#D10000] cursor-pointer text-white font-bold py-3.5 rounded-full hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full bg-[#D10000] cursor-pointer text-white font-bold py-4 rounded-xl hover:bg-red-700 transition-all transform hover:-translate-y-0.5 shadow-xl shadow-red-100 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {mutation.isPending ? <Loader2 className="animate-spin w-6 h-6 mx-auto" /> : "Verify Code"}
               </button>
 
-              <div className="text-center text-gray-500 text-sm flex items-center justify-center gap-1">
-                Didn't receive the code?{" "}
+              <div className="text-center text-gray-500 text-base flex items-center justify-center gap-1.5 mt-6">
+                Didn&apos;t receive the code?
                 <button
                   type="button"
                   onClick={handleResend}
                   disabled={resendMutation.isPending}
-                  className="text-red-600 font-semibold hover:underline disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                  className="text-[#D10000] font-bold hover:underline disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer"
                 >
                   {resendMutation.isPending ? (
                     <Loader2 className="animate-spin w-3 h-3" />

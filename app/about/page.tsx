@@ -12,9 +12,12 @@ import Footer from "@/components/layout/Footer";
 
 import PageHero from "@/components/shared/PageHero";
 
+import Stats from "./Stats";
+import Testimonials from "./Testimonials";
+
 const AboutPage = () => {
   return (
-    <main className="w-full bg-white">
+    <main className="w-full bg-white overflow-x-hidden">
       {/* Hero Section */}
       <PageHero 
         image={images.abouthero}
@@ -56,26 +59,40 @@ const AboutPage = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="w-full lg:w-1/2 flex justify-center"
             >
-              <div className="relative w-full max-w-md aspect-[4/3] rounded-2xl flex items-center justify-center">
+              <motion.div 
+                animate={{ rotate: 360 }}
+                transition={{ 
+                  duration: 30,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+                className="relative w-full flex items-center justify-center"
+              >
                  <Image
-                    src={images.logobox}
+                    src={images.heroImage}
                     alt="Oga Mechanic Logo Box"
                     width={400}
                     height={300}
                     className="object-contain w-full h-auto"
                  />
-              </div>
+              </motion.div>
             </motion.div>
 
           </div>
         </div>
       </section>
 
+      {/* Stats Section */}
+      <Stats />
+
       {/* Mission & Vision Section */}
       <MissionVission />
 
       {/* Benefits Section */}
       <Benefits />
+
+      {/* Testimonials Section */}
+      <Testimonials />
 
       {/* Download App Section */}
       <DownloadApp />

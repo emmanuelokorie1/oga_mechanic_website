@@ -121,3 +121,23 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #D30309; /* Primary Red */
 }
+
+/* Hide Development Indicators */
+[data-nextjs-toast],
+[data-nextjs-toast-wrapper],
+[data-nextjs-dialog-overlay],
+.nextjs-toast-errors-parent,
+nextjs-portal,
+#nextjs-dev-tools-overlay,
+vercel-live-feedback {
+  display: none !important;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}

@@ -68,7 +68,7 @@ ${values.message}
     });
 
     return (
-        <section id="contact" className="w-full bg-white">
+        <section id="contact" className="w-full bg-gray-50/50">
             {/* Hero Section */}
             <PageHero 
                 image={images.contactHero}
@@ -76,111 +76,105 @@ ${values.message}
             />
 
             {/* Main Content */}
-            <div className="container mx-auto px-6 py-16 lg:py-24">
+            <div className="container mx-auto px-6 py-20 lg:py-32">
+                
+                <div className="flex flex-col lg:flex-row shadow-lg rounded-[2.5rem] overflow-hidden bg-white">
 
-                <div className="mb-12">
-                    <h4 className="text-primary font-bold tracking-wider uppercase mb-4 text-sm">
-                        REACH OUT NOW!
-                    </h4>
-                    <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                        Business enquiries
-                    </h2>
-                    <p className="text-gray-600 text-lg leading-relaxed">
-                        We&apos;d love to hear from you. Please fill out this form or shoot us an email.
-                    </p>
-                </div>
-
-                <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
-
-                    {/* Left Side - Info */}
+                    {/* Left Side - Info (Dark Theme) */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="w-full lg:w-[40%] space-y-6 lg:space-y-10"
+                        className="w-full lg:w-[40%] bg-[#0F0F0F] text-white p-10 lg:p-16 flex flex-col justify-between relative overflow-hidden"
                     >
+                         {/* Background Pattern */}
+                         <div className="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-[120px] opacity-20 pointer-events-none" />
+                         <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-600 rounded-full blur-[120px] opacity-10 pointer-events-none" />
 
-                        <div className="space-y-6 lg:space-y-8">
-                            {contactData.map((item, index) => (
-                                <div key={index} className="flex gap-4">
-                                    <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0">
-                                        <item.icon className="w-6 h-6 text-primary" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-1">{item.title}</h3>
-                                        <p className="text-gray-600 mb-1 py-1 lg:py-3">{item.description}</p>
-                                        
-                                        {/* Render text if available (for address) */}
-                                        {item.text && (
-                                            <a 
-                                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.text)}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-primary font-medium py-1 lg:py-3 block hover:underline"
-                                            >
-                                                {item.text}
-                                            </a>
-                                        )}
+                         <div className="relative z-10">
+                            <h4 className="text-red-500 font-bold tracking-widest uppercase mb-6 text-sm">
+                                Contact Information
+                            </h4>
+                            <h2 className="text-4xl font-bold mb-6 leading-tight">
+                                Let&apos;s start a <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">conversation</span>
+                            </h2>
+                            <p className="text-gray-400 text-lg leading-relaxed mb-12">
+                                We&apos;d love to hear from you. Fill out the form or reach us via the details below.
+                            </p>
 
-                                        {/* Render links if available (for email/phone) */}
-                                        {item.links && (
-                                            <div className="flex flex-col gap-1">
-                                                {item.links.map((link, i) => (
-                                                    <a 
-                                                        key={i} 
-                                                        href={link.href} 
-                                                        className="text-primary font-medium hover:underline"
-                                                    >
-                                                        {link.label}
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        )}
+                            <div className="space-y-8">
+                                {contactData.map((item, index) => (
+                                    <div key={index} className="flex gap-6 group">
+                                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-red-600 group-hover:border-red-600 transition-all duration-300">
+                                            <item.icon className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-bold text-white mb-1 group-hover:text-red-500 transition-colors">{item.title}</h3>
+                                            <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
+                                            
+                                            {item.text && (
+                                                <a 
+                                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.text)}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-white font-medium block mt-2 hover:text-red-400 transition-colors"
+                                                >
+                                                    {item.text}
+                                                </a>
+                                            )}
+
+                                            {item.links && (
+                                                <div className="flex flex-col gap-1 mt-2">
+                                                    {item.links.map((link, i) => (
+                                                        <a 
+                                                            key={i} 
+                                                            href={link.href} 
+                                                            className="text-white font-medium hover:text-red-400 transition-colors"
+                                                        >
+                                                            {link.label}
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                         </div>
                     </motion.div>
 
-                    {/* Right Side - Form */}
+                    {/* Right Side - Form (Light Theme) */}
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="w-full lg:w-[60%]"
+                        className="w-full lg:w-[60%] p-10 lg:p-16 flex flex-col justify-center"
                     >
-                        <div className="bg-white sm:p-6 p-4 md:p-8 rounded-2xl shadow-md border border-gray-100">
-                            <form onSubmit={formik.handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <Input
-                                        label="First name"
-                                        type="text"
-                                        id="firstName"
-                                        placeholder="First name"
-                                        {...formik.getFieldProps("firstName")}
-                                        error={formik.touched.firstName && formik.errors.firstName}
-                                    />
-                                    <Input
-                                        label="Last name"
-                                        type="text"
-                                        id="lastName"
-                                        placeholder="Last name"
-                                        {...formik.getFieldProps("lastName")}
-                                        error={formik.touched.lastName && formik.errors.lastName}
-                                    />
-                                </div>
-
+                        <form onSubmit={formik.handleSubmit} className="space-y-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <Input
-                                    label="Company name"
+                                    label="First name"
                                     type="text"
-                                    id="company"
-                                    placeholder="Enter company name"
-                                    {...formik.getFieldProps("company")}
-                                    error={formik.touched.company && formik.errors.company}
-                                    />
+                                    id="firstName"
+                                    placeholder="Enter first name"
+                                    {...formik.getFieldProps("firstName")}
+                                    error={formik.touched.firstName && formik.errors.firstName}
+                                    className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
+                                />
+                                <Input
+                                    label="Last name"
+                                    type="text"
+                                    id="lastName"
+                                    placeholder="Enter last name"
+                                    {...formik.getFieldProps("lastName")}
+                                    error={formik.touched.lastName && formik.errors.lastName}
+                                    className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
+                                />
+                            </div>
 
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <Input
                                     label="Email"
                                     type="email"
@@ -188,41 +182,48 @@ ${values.message}
                                     placeholder="you@company.com"
                                     {...formik.getFieldProps("email")}
                                     error={formik.touched.email && formik.errors.email}
+                                    className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
                                 />
-
                                 <Input
                                     label="Contact number"
                                     type="tel"
                                     id="phone"
-                                    placeholder="Enter contact number"
+                                    placeholder="+234..."
                                     {...formik.getFieldProps("phone")}
                                     error={formik.touched.phone && formik.errors.phone}
+                                    className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
                                 />
+                            </div>
 
-                                <Textarea
-                                    label="Message"
-                                    id="message"
-                                    rows={4}
-                                    placeholder="How can we help you?"
-                                    {...formik.getFieldProps("message")}
-                                    error={formik.touched.message && formik.errors.message}
+                            <Input
+                                label="Company name (Optional)"
+                                type="text"
+                                id="company"
+                                placeholder="Enter company name"
+                                {...formik.getFieldProps("company")}
+                                error={formik.touched.company && formik.errors.company}
+                                className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
+                            />
+
+                            <Textarea
+                                label="Message"
+                                id="message"
+                                rows={5}
+                                placeholder="Tell us how we can help..."
+                                {...formik.getFieldProps("message")}
+                                error={formik.touched.message && formik.errors.message}
+                                className="bg-gray-50 border-gray-100 focus:bg-white transition-all"
+                            />
+
+                            <div className="pt-4">
+                                <CTAButton
+                                    text={formik.isSubmitting ? "Sending..." : "Send Message"}
+                                    type="submit"
+                                    disabled={formik.isSubmitting}
+                                    className="bg-red-600 text-white w-full md:w-auto px-10 py-4 h-auto text-lg rounded-xl hover:bg-red-700 shadow-xl shadow-red-200 transition-all transform hover:-translate-y-1"
                                 />
-
-                                <p className="text-sm text-gray-500 leading-relaxed">
-                                    Oga Mechanic requires your contact information in order to assist with your enquiry. For more information about how your data will be used, as well as our privacy practices.
-                                </p>
-
-                                <div className="w-full md:w-[60%] mx-auto pt-8">
-                                    <CTAButton
-                                        text={formik.isSubmitting ? "Submitting..." : "Submit"}
-                                        type="submit"
-                                        disabled={formik.isSubmitting}
-                                        className="bg-transparent text-primary border border-primary w-full justify-between hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                                        classNameIcon="bg-primary text-white"
-                                    />
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </motion.div>
 
                 </div>
