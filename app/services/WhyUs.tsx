@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { images } from "@/constant";
 import { Settings, CheckCircle2 } from "lucide-react";
 
@@ -89,8 +89,18 @@ const FeatureItemRight = ({ title, description }: { title: string; description: 
 );
 
 const WhyUs = () => {
+  const scrollRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: scrollRef,
+    offset: ["start end", "end start"],
+  });
+
+  const carY = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const carRotate = useTransform(scrollYProgress, [0, 1], [-15, 15]);
+  const carScale = useTransform(scrollYProgress, [0, 1], [0.8, 1.2]);
+
   return (
-    <section className="py-20 bg-white overflow-hidden">
+    <section ref={scrollRef} className="py-20 bg-white overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center sm:mb-20 mb-10">
@@ -115,13 +125,10 @@ const WhyUs = () => {
           {/* Center Image */}
           <div className="w-full lg:w-1/3 flex justify-center order-1 lg:order-2 mb-10 lg:mb-0">
             <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
+                style={{ y: carY, rotate: carRotate, scale: carScale }}
                 className="relative sm:w-[280px] w-full h-[400px] md:w-[350px] md:h-[550px]"
             >
-                {/* Car Image - Using provided car asset or placeholder */}
+                {/* Car Image */}
                 <Image
                     src={images.serviceCar} 
                     alt="Red Sports Car"

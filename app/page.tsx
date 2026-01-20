@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 
 // import { Roles } from "@/components/home/Roles";
 import Hero1 from "@/components/home/Hero1";
+import TrustedBy from "@/components/home/TrustedBy";
 import AboutUs from "@/components/home/AboutUs";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import UserType from "@/components/home/UserType";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900 selection:bg-red-500/30 selection:text-red-900">
       <Hero1 />
+      <TrustedBy />
       <AboutUs />
       <GetApp />
       <WhyChooseUs />

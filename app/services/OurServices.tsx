@@ -55,14 +55,14 @@ const services: Service[] = [
             "Get real-time guidance from automobile experts. Ask questions, receive maintenance tips, and make smarter vehicle decisions backed by experience.",
         image: images.expert,
     },
-    {
-        id: "06",
-        title: "Gas Services",
-        tagline: "On-Demand Gas Delivery",
-        description:
-            "Order gas conveniently through the platform and have it delivered safely to your location. Save time and avoid unnecessary trips.",
-        image: images.gas,
-    },
+    // {
+    //     id: "06",
+    //     title: "Gas Services",
+    //     tagline: "On-Demand Gas Delivery",
+    //     description:
+    //         "Order gas conveniently through the platform and have it delivered safely to your location. Save time and avoid unnecessary trips.",
+    //     image: images.gas,
+    // },
 ];
 
 const OurServices = () => {
@@ -71,7 +71,7 @@ const OurServices = () => {
     return (
         <section
             aria-labelledby="services-heading"
-            className="bg-[#050505] py-20 lg:py-32 text-white overflow-hidden relative"
+            className="bg-[#050505] py-20 lg:py-32 text-white relative"
         >
             {/* Background Gradients */}
             <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-red-900/10 to-transparent pointer-events-none" />
@@ -80,7 +80,7 @@ const OurServices = () => {
                 <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
 
                     {/* Sticky Sidebar */}
-                    <div className="w-full lg:w-1/3 lg:h-full lg:sticky lg:top-0 self-start flex flex-col justify-center">
+                    <div className="w-full lg:w-1/3 lg:sticky lg:top-32 self-start flex flex-col justify-center">
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}

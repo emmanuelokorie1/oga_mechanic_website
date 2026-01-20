@@ -58,9 +58,9 @@ const Header = () => {
   return (
     <>
       <motion.header
-        className={`fixed z-50 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex items-center left-1/2 -translate-x-1/2 ${scrolled
-          ? "top-4 w-[90%] md:w-[70%] max-w-6xl rounded-full bg-black/60 backdrop-blur-xl border border-white/10 shadow-lg py-1 overflow-hidden"
-          : "top-0 w-full bg-transparent py-5"
+        className={`fixed z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center left-1/2 -translate-x-1/2 ${scrolled
+          ? "top-4 w-[90%] md:w-[70%] max-w-6xl rounded-full bg-black/70 backdrop-blur-md border border-white/10 shadow-2xl py-2 overflow-hidden"
+          : "top-0 w-full max-w-full rounded-none bg-transparent border-transparent py-5"
           }`}
       >
         <div className="container mx-auto px-6">

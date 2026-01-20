@@ -81,8 +81,8 @@ const SignupPage = () => {
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Left Side - Image (Hidden on Mobile) */}
-      <div className="hidden lg:block w-[40%] relative bg-black/20">
+      {/* Left Side - Image & overlay (Hidden on Mobile) */}
+      <div className="hidden lg:block w-[45%] relative overflow-hidden">
         <Image
           src={images.signup}
           alt="Signup Cover"
@@ -90,79 +90,86 @@ const SignupPage = () => {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+        
+        <div className="absolute bottom-0 left-0 p-12 text-white z-10">
+             <div className="mb-6">
+                <Image src={icons.logo} alt="Oga Mechanic" width={180} height={180} className="" />
+             </div>
+             <h2 className="text-4xl font-bold mb-4 leading-tight">Join the community of <br/> smart vehicle owners.</h2>
+             <p className="text-gray-300 text-lg max-w-md leading-relaxed">
+                Connect with verified mechanics, track your vehicle history, and manage your repairs seamlessly.
+             </p>
+        </div>
       </div>
 
       {/* Right Side - Form */}
-      <div className="w-full lg:w-[60%] bg-gray-50 flex flex-col justify-center sm:px-8 md:px-16 lg:px-24 py-12 relative">
+      <div className="w-full lg:w-[55%] flex flex-col justify-center items-center px-6 py-12 lg:p-12 relative bg-white">
         
-        <div onClick={() => router.back()} className="absolute top-8 cursor-pointer border border-gray-300 rounded-md p-2 left-8 text-gray-600 hover:text-gray-900 transition-colors">
-            <ArrowLeft className="w-6 h-6" />
+        <div onClick={() => router.back()} className="absolute top-8 left-8 cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors">
+            <ArrowLeft className="w-6 h-6 text-gray-600" />
         </div>
 
-        {/* Logo */}
-        <Link
-          href={routes.home}
-          className="absolute top-30 right-14 hidden lg:flex justify-end items-center gap-2"
-        >
-          <Image src={icons.logo1} alt="Oga Mechanic" width={170} height={170} />
-        </Link>
-
-        <div className="max-w-[80%] w-full mx-auto">
+        <div className="w-full max-w-lg space-y-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile set up</h1>
-            <p className="text-gray-500 mb-8">Set up your profile information</p>
+            <div className="text-center lg:text-left mb-10">
+                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Create your account</h1>
+                <p className="text-gray-500 text-lg">
+                    Join Oga Mechanic today. It takes less than a minute.
+                </p>
+            </div>
 
-            <form onSubmit={formik.handleSubmit} className="space-y-5">
-              {/* First Name */}
-              <Input
-                label="First name"
-                id="firstName"
-                type="text"
-                placeholder="Enter your first name"
-                {...formik.getFieldProps("firstName")}
-                error={formik.errors.firstName}
-                touched={formik.touched.firstName}
-              />
+            <form onSubmit={formik.handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input
+                    label="First name"
+                    id="firstName"
+                    type="text"
+                    placeholder="First name"
+                    {...formik.getFieldProps("firstName")}
+                    error={formik.errors.firstName}
+                    touched={formik.touched.firstName}
+                    // className="bg-gray-50 border-gray-100 h-12"
+                />
 
-              {/* Last Name */}
-              <Input
-                label="Last name"
-                id="lastName"
-                type="text"
-                placeholder="Enter your last name"
-                {...formik.getFieldProps("lastName")}
-                error={formik.errors.lastName}
-                touched={formik.touched.lastName}
-              />
+                <Input
+                    label="Last name"
+                    id="lastName"
+                    type="text"
+                    placeholder="Last name"
+                    {...formik.getFieldProps("lastName")}
+                    error={formik.errors.lastName}
+                    touched={formik.touched.lastName}
+                    // className="bg-gray-50 border-gray-100 h-12"
+                />
+              </div>
 
-              {/* Email */}
               <Input
                 label="Email address"
                 id="email"
                 type="email"
-                placeholder="Enter email address"
+                placeholder="name@example.com"
                 {...formik.getFieldProps("email")}
                 error={formik.errors.email}
                 touched={formik.touched.email}
+                // className="bg-gray-50 border-gray-100 h-12"
               />
 
-              {/* Phone Number */}
               <Input
                 label="Phone Number"
                 id="phone_number"
                 type="tel"
-                placeholder="Enter phone number"
+                placeholder="+234..."
                 {...formik.getFieldProps("phone_number")}
                 error={formik.errors.phone_number}
                 touched={formik.touched.phone_number}
+                // className="bg-gray-50 border-gray-100 h-12"
               />
 
-              {/* Password */}
               <Input
                 label="Password"
                 id="password"
@@ -171,19 +178,22 @@ const SignupPage = () => {
                 {...formik.getFieldProps("password")}
                 error={formik.errors.password}
                 touched={formik.touched.password}
+                // className="bg-gray-50 border-gray-100 h-12"
               />
        
               <button
                 type="submit"
                 disabled={mutation.isPending}
-                className="w-full bg-[#D10000] cursor-pointer text-white font-bold py-3.5 rounded-full hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full bg-[#D10000] cursor-pointer text-white font-bold py-4 rounded-xl hover:bg-red-700 transition-all transform hover:-translate-y-0.5 shadow-xl shadow-red-100 mt-6 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {mutation.isPending ? (
                   <Loader2 className="animate-spin w-6 h-6 mx-auto" />
                 ) : (
-                  "Create account"
+                  "Create Account"
                 )}
               </button>
+
+              
             </form>
           </motion.div>
         </div>
