@@ -20,7 +20,7 @@ const SignupSchema = Yup.object().shape({
   lastName: Yup.string().required("Last name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   phone_number: Yup.string()
-    .matches(/^[0-9]+$/, "Must be only digits")
+    .matches(/^\+?[0-9]+$/, "Invalid phone number format")
     .min(10, "Must be at least 10 digits")
     .required("Phone number is required"),
   password: Yup.string()

@@ -17,7 +17,7 @@ const VerifyOtpPage = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [userEmail, setUserEmail] = useState("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const [showSuccessModal, setShowSuccessModal] = useState(true);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     // Retrieve email from storage for context
