@@ -69,14 +69,9 @@ const Hero1 = () => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="space-y-6 mb-8"
                     >
-                        <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-none">
-                            <span className="text-primary">OGA</span>{" "}
-                            <span className="text-white italic">MECHANIC</span>
+                        <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-none text-white">
+                            Never get <span className="text-primary">stranded</span> again.
                         </h1>
-
-                        <p className="text-xl sm:text-3xl lg:text-4xl font-bold text-white">
-                            The Complete <span className="text-red-500 italic">automobile</span> Experience
-                        </p>
                     </motion.div>
 
                     {/* Description */}
@@ -84,15 +79,10 @@ const Hero1 = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.4 }}
-                        className="mb-10 max-w-2xl"
+                        className="mb-10 max-w-3xl"
                     >
-                        <p className="text-base sm:text-lg text-gray-200 leading-relaxed mb-6 pr-0 lg:pr-[4rem]">
-                            From <span className="text-white font-semibold">car purchases</span> to{" "}
-                            <span className="text-white font-semibold">repairs</span>,{" "}
-                            <span className="text-white font-semibold">rentals</span>,{" "}
-                            <span className="text-white font-semibold">gas supply</span>, and{" "}
-                            <span className="text-white font-semibold">expert support</span>
-                            <span className="text-red-500 font-bold"> Oga Mechanic</span> brings every auto service together.
+                        <p className="text-base md:text-lg lg:text-xl text-gray-200 leading-relaxed mb-6 pr-0 lg:pr-[4rem]">
+                            Africa&apos;s first complete automotive & mobility ecosystem connecting car owners, drivers, mechanics, towing, spare parts, logistics, and car sales into <span className="text-white font-bold text-xl lg:text-2xl block mt-2">ONE powerful app.</span>
                         </p>
 
                     </motion.div>
@@ -109,7 +99,7 @@ const Hero1 = () => {
                             onClick={() => setShowModal(true)}
                             className="group cursor-pointer flex items-center justify-between sm:justify-start gap-3 p-1 pl-4 bg-white hover:bg-gray-100 text-primary rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 w-full sm:w-auto"
                         >
-                            <span className="text-base transition-transform duration-300 group-hover:translate-x-1">Download app</span>
+                            <span className="text-base transition-transform duration-300 group-hover:translate-x-1">Download App</span>
                             <div className="flex items-center gap-1 px-3 py-2 border border-primary rounded-xl transition-all duration-300 group-hover:border-red-700 group-hover:bg-red-50">
                                 {/* Google Play Icon */}
                                 <Image
@@ -132,7 +122,7 @@ const Hero1 = () => {
 
                         <div className="w-full sm:w-auto">
                             <CTAButton
-                                text="Explore services"
+                                text="Explore Services"
                                 href={routes.services}
                                 className="bg-transparent text-white border border-white w-full sm:w-auto justify-between sm:justify-start"
                                 classNameIcon="bg-white text-primary rounded-lg p-2"

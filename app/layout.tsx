@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fira_Sans, Geist } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -6,6 +6,7 @@ import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
 import SmoothScroller from "@/components/layout/SmoothScroller";
 import BackToTop from "@/components/ui/BackToTop";
+import { icons } from "@/constant";
 
 const firaSans = Fira_Sans({
   subsets: ["latin"],
@@ -21,38 +22,39 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Oga Mechanic - Your Ultimate Auto Hub",
+  title: "Oga Mechanic Global - Your Ultimate Auto Hub",
   description: "Buy & sell cars, find expert mechanics, and book rides—all in one place.",
-  metadataBase: new URL("https://ogamechanic.ng"), // Assuming this domain, can be updated
+  metadataBase: new URL("https://ogamechanic.org"), // Assuming this domain, can be updated
   keywords: ["mechanic", "auto repair", "buy cars", "sell cars", "ride booking", "nigeria", "auto parts"],
   authors: [{ name: "Oga Mechanic Team" }],
   openGraph: {
-    title: "Oga Mechanic - Your Ultimate Auto Hub",
+    title: "Oga Mechanic Global - Your Ultimate Auto Hub",
     description: "The complete automobile experience. Buy & sell cars, find expert mechanics, rental, gas supply, and book rides.",
-    url: "https://ogamechanic.ng",
-    siteName: "Oga Mechanic",
+    url: "https://ogamechanic.org",
+    siteName: "Oga Mechanic Global",
     locale: "en_NG",
     type: "website",
     images: [
       {
-        url: "/og-image.jpg", // Needs to be added to public/ or mocked
+        url: icons.logo.src,
         width: 1200,
         height: 630,
-        alt: "Oga Mechanic - Your Ultimate Auto Hub",
+        alt: "Oga Mechanic Global - Your Ultimate Auto Hub",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Oga Mechanic - Your Ultimate Auto Hub",
+    title: "Oga Mechanic Global - Your Ultimate Auto Hub",
     description: "The complete automobile experience. Buy & sell cars, find expert mechanics, rental, gas supply, and book rides.",
-    images: ["/og-image.jpg"], // Needs to be added to public/ or mocked
+    images: [icons.logo.src, icons.logo1.src, icons.logo2.src],
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
   themeColor: "#B70207",
 };
 

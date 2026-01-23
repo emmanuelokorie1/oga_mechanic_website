@@ -121,7 +121,7 @@ const Header = () => {
             {/* CTA Button */}
             <div className="hidden md:block">
               <CTAButton
-                text="Get Started"
+                text="Get Started For Free"
                 href={routes.signup}
                 className={`border transition-all duration-300 ${scrolled
                   ? "bg-white text-primary border-white hover:bg-gray-100"
@@ -225,7 +225,7 @@ const Header = () => {
 
                 <div className="flex justify-center">
                   <CTAButton
-                    text="Get Started Now"
+                    text="Get Started For Free"
                     href={routes.signup}
                     className="bg-primary text-white rounded-full border-primary w-full justify-center py-3 text-lg shadow-[0_0_30px_rgba(211,3,9,0.3)] hover:shadow-[0_0_50px_rgba(211,3,9,0.5)] transition-shadow"
                     classNameIcon="bg-white text-primary"
