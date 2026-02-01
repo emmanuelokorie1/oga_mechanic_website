@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import { BiSupport } from "react-icons/bi";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +53,7 @@ export default function ChatWidget() {
   }, [messages]);
 
   return (
-    <div className="fixed bottom-24 right-8 z-50 flex flex-col items-end">
+    <div className="fixed bottom-6 right-7 z-50 flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -174,7 +175,7 @@ export default function ChatWidget() {
               exit={{ rotate: -90, opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <MessageCircle size={24} />
+              <BiSupport size={24} />
             </motion.div>
           )}
         </AnimatePresence>

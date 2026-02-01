@@ -1,16 +1,62 @@
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAI } from "@ai-sdk/openai";
 import { convertToModelMessages, streamText } from "ai";
 import { getSimulatedResponse } from "@/lib/simulated-chat";
 
 // Fallback to simulated response if no API key
-const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+const apiKey = process.env.OPENAI_API_KEY;
 
-const google = createGoogleGenerativeAI({
+const openai = createOpenAI({
   apiKey: apiKey || "",
 });
 
 export const runtime = "edge";
+
+// Helper function to create a streaming response for simulated chat
+function createSimulatedStreamResponse(text: string) {
+  const encoder = new TextEncoder();
+  
+  const stream = new ReadableStream({
+    async start(controller) {
+      // Generate a unique message ID
+      const messageId = `msg_${Date.now()}`;
+      
+      // Send message start with ID
+      controller.enqueue(encoder.encode(`data: ${JSON.stringify({
+        type: "message-start",
+        id: messageId,
+        role: "assistant"
+      })}\n\n`));
+      
+      // Send the text content as parts
+      controller.enqueue(encoder.encode(`data: ${JSON.stringify({
+        type: "content-part",
+        id: messageId,
+        part: {
+          type: "text",
+          text: text
+        }
+      })}\n\n`));
+      
+      // Send message finish
+      controller.enqueue(encoder.encode(`data: ${JSON.stringify({
+        type: "message-finish",
+        id: messageId
+      })}\n\n`));
+      
+      controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+      controller.close();
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      "Connection": "keep-alive",
+    },
+  });
+}
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
@@ -21,16 +67,13 @@ export async function POST(req: Request) {
     // Artificial delay for realism
     await new Promise((resolve) => setTimeout(resolve, 500));
     
-    // Extract text from UIMessage parts if possible, or fallback to simple check
-    // UIMessage from useChat (AI SDK 3.x) uses parts.
-    // lastMessage.content is getting deprecated/removed or was from older version.
-    // We try to access content or parts
+    // Extract text from UIMessage parts
     const lastContent = lastMessage.content || 
                         (lastMessage.parts && lastMessage.parts.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('')) || 
                         "";
 
     const simulatedText = getSimulatedResponse(lastContent);
-    return new Response(simulatedText);
+    return createSimulatedStreamResponse(simulatedText);
   }
 
   try {
@@ -39,7 +82,7 @@ export async function POST(req: Request) {
     console.log("Core messages converted:", coreMessages.length);
 
     const result = await streamText({
-      model: google("gemini-2.0-flash"),
+      model: openai("gpt-4o-mini"),
       system: `
         You are a helpful customer support assistant for Oga Mechanic, an all-in-one automotive platform in Nigeria.
         
@@ -61,11 +104,12 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Error in chat route:", error);
     // Fallback to simulated if AI fails
-    // Extract content safely from UIMessage format
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    
     const lastContent = lastMessage.content || 
                         (lastMessage.parts && lastMessage.parts.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('')) || 
                         "";
     const simulatedText = getSimulatedResponse(lastContent);
-    return new Response(simulatedText);
+    return createSimulatedStreamResponse(simulatedText);
   }
 }
