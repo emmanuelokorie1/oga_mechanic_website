@@ -104,7 +104,7 @@ const SignupPage = () => {
       </div>
 
       {/* Right Side - Form */}
-      <div className="w-full lg:w-[55%] flex flex-col justify-center items-center px-6 py-12 lg:p-12 relative bg-white">
+      <div className="w-full lg:w-[55%] flex flex-col justify-center items-center px-6 py-12 pb-32 lg:p-12 relative bg-white">
         
         <div onClick={() => router.back()} className="absolute top-8 left-8 cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors">
             <ArrowLeft className="w-6 h-6 text-gray-600" />
