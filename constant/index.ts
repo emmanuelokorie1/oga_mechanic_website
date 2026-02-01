@@ -24,6 +24,7 @@ import market from "@/assets/images/services/market.svg"
 import support from "@/assets/images/services/support.svg"
 import rental from "@/assets/images/services/rental.svg"
 import ride from "@/assets/images/services/ride.svg"
+import towing from "@/public/assets/images/services/towing.png"
 
 //videos
 import heroVideo from "@/assets/video/hero.gif"
@@ -58,6 +59,7 @@ export const images = {
     support,
     rental,
     ride,
+    towing,
     signup,
     contactHero,
     homeHero

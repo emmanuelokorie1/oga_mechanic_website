@@ -29,7 +29,7 @@ const services: Service[] = [
         tagline: "Repairs, Servicing & Maintenance",
         description:
             "Connect with skilled mechanics for repairs, servicing, diagnostics, and routine maintenance. Reliable support is always within reach whenever vehicle issues arise.",
-        image: images.support,
+        image: images.mechanic,
     },
     {
         id: "03",
@@ -55,8 +55,16 @@ const services: Service[] = [
             "Get real-time guidance from automobile experts. Ask questions, receive maintenance tips, and make smarter vehicle decisions backed by experience.",
         image: images.expert,
     },
+    {
+        id: "06",
+        title: "Car Towing Services",
+        tagline: "Emergency Roadside Assistance",
+        description:
+            "Stranded on the road? Get fast and reliable towing services 24/7. Our professional tow trucks safely transport your vehicle to your preferred location or nearest mechanic.",
+        image: images.towing,
+    },
     // {
-    //     id: "06",
+    //     id: "07",
     //     title: "Gas Services",
     //     tagline: "On-Demand Gas Delivery",
     //     description:

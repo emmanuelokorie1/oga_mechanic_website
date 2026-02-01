@@ -126,7 +126,7 @@ const WhyUs = () => {
           <div className="w-full lg:w-1/3 flex justify-center order-1 lg:order-2 mb-10 lg:mb-0">
             <motion.div
                 style={{ y: carY, rotate: carRotate, scale: carScale }}
-                className="relative sm:w-[280px] w-full h-[400px] md:w-[350px] md:h-[550px]"
+                className="relative sm:w-[350px] w-full h-[500px] md:w-[450px] md:h-[700px]"
             >
                 {/* Car Image */}
                 <Image
