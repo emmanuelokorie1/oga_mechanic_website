@@ -19,6 +19,22 @@ const Input: React.FC<InputProps> = ({
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
 
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    // Scroll the input into view when focused (helpful on mobile when keyboard appears)
+    setTimeout(() => {
+      e.target.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center',
+        inline: 'nearest'
+      });
+    }, 300); // Small delay to allow keyboard to open first
+    
+    // Call the original onFocus if provided
+    if (props.onFocus) {
+      props.onFocus(e);
+    }
+  };
+
   return (
     <div className="space-y-1">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -33,6 +49,7 @@ const Input: React.FC<InputProps> = ({
               ? "border-red-500 focus:ring-red-500"
               : "border-gray-200 focus:border-red-500 focus:ring-1 focus:ring-red-500"
           } ${className} ${isPassword ? "pr-12" : ""}`}
+          onFocus={handleFocus}
           {...props}
         />
         {isPassword && (
