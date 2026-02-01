@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import SmoothScroller from "@/components/layout/SmoothScroller";
 import BackToTop from "@/components/ui/BackToTop";
 import { icons } from "@/constant";
+import ChatWidget from "@/components/ui/ChatWidget";
 
 const firaSans = Fira_Sans({
   subsets: ["latin"],
@@ -72,6 +73,8 @@ export default function RootLayout({
           <SmoothScroller>
             <Header />
             {children}
+            {/* <TawkTo /> */}
+            <ChatWidget />
             <Toaster position="top-center" reverseOrder={false} />
             <BackToTop />
           </SmoothScroller>
