@@ -74,7 +74,7 @@ export default function RootLayout({
             <Header />
             {children}
             {/* <TawkTo /> */}
-            <ChatWidget />
+            {/* <ChatWidget /> */}
             <Toaster position="top-center" reverseOrder={false} />
             <BackToTop />
           </SmoothScroller>
