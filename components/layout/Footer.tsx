@@ -44,14 +44,12 @@ const Footer = () => {
 
     setLoading(true);
     try {
-        const response = await fetch("/api/contact", {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${baseUrl}/users/subscribe/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 email,
-                subject: "New Newsletter Subscription",
-                message: "Please add me to the newsletter list.",
-                type: "newsletter"
             }),
         });
         
@@ -61,10 +59,20 @@ const Footer = () => {
             toast.success("Subscribed successfully!");
             setEmail("");
         } else {
-            throw new Error(data.message || "Subscription failed");
+             // Sometimes the error is a string, sometimes an object
+             let errorMessage = "Subscription failed";
+             if (data.errors && data.errors.email && Array.isArray(data.errors.email) && data.errors.email.length > 0) {
+                 errorMessage = data.errors.email[0];
+             } else if (typeof data === 'string') {
+                 errorMessage = data;
+             } else if (data.message) {
+                 errorMessage = data.message;
+             }
+            throw new Error(errorMessage);
         }
-    } catch (error) {
-        toast.error("Failed to subscribe. Please try again.");
+    } catch (error: any) {
+        console.error("Subscription error:", error);
+        toast.error(error.message || "Failed to subscribe. Please try again.");
     } finally {
         setLoading(false);
     }
@@ -187,9 +195,16 @@ const Footer = () => {
           <p>
             Copyright © {new Date().getFullYear()} Oga Mechanic. All rights reserved.
           </p>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            <span className="text-gray-500">All Systems Operational</span>
+          <div className="flex items-center gap-1">
+            <span className="text-gray-600">Powered by</span>
+            <a 
+              href="https://www.anavaglobal.online/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-red-500 transition-colors font-medium"
+            >
+              Anava Global Limited
+            </a>
           </div>
         </div>
 

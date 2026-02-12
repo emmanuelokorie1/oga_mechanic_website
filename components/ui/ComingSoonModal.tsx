@@ -33,27 +33,38 @@ const ComingSoonModal: React.FC<ComingSoonModalProps> = ({ isOpen, onClose }) =>
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/contact", {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const response = await fetch(`${baseUrl}/users/subscribe/`, {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
           },
           body: JSON.stringify({
               email: email,
-              subject: "New Newsletter Subscription",
-              message: `New subscription from: ${email}`
           }),
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         setIsSuccess(true);
         toast.success("You're on the list! We'll notify you when we launch.");
         setEmail("");
       } else {
-         throw new Error("Failed to subscribe");
+         let errorMessage = "Subscription failed";
+         if (data.errors && data.errors.email && Array.isArray(data.errors.email) && data.errors.email.length > 0) {
+             errorMessage = data.errors.email[0];
+         } else if (typeof data === 'string') {
+             errorMessage = data;
+         } else if (data.message) {
+             errorMessage = data.message;
+         }
+         throw new Error(errorMessage);
       }
-    } catch (err) {
-      toast.error("Something went wrong. Please try again.");
+    } catch (err: any) {
+      console.error("Subscription error:", err);
+      toast.error(err.message || "Something went wrong. Please try again.");
+      setError(err.message || "Failed to subscribe");
     } finally {
       setIsSubmitting(false);
     }

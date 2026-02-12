@@ -20,19 +20,19 @@ export const contactData = [
             { label: email, href: "mailto:" + email }
         ]
     },
-    {
-        icon: MapPin,
-        title: "Office",
-        description: "Come say hello at our office HQ.",
-        text: address
-    },
+    // {
+    //     icon: MapPin,
+    //     title: "Office",
+    //     description: "Come say hello at our office HQ.",
+    //     text: address
+    // },
     {
         icon: Phone,
         title: "Phone",
         description: "Mon-Fri from 8am to 5pm.",
         links: [
             { label: phone, href: "tel:" + phone },
-            { label: phone2, href: "tel:" + phone2 }
+            // { label: phone2, href: "tel:" + phone2 }
         ]
     }
 ];

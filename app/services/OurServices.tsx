@@ -20,7 +20,7 @@ const services: Service[] = [
         title: "Vehicle Marketplace",
         tagline: "Buy & Sell Cars and Spare Parts",
         description:
-            "Discover quality vehicles and genuine spare parts from trusted sellers. Browse, compare, and make confident purchase decisions, all in one seamless marketplace.",
+            "Discover quality vehicles and genuine spare parts from trusted sellers. Browse, compare, and make confident purchase decisions, or participate in car bidding for great deals.",
         image: images.market,
     },
     {
@@ -28,7 +28,7 @@ const services: Service[] = [
         title: "Vehicle Care & Support",
         tagline: "Repairs, Servicing & Maintenance",
         description:
-            "Connect with skilled mechanics for repairs, servicing, diagnostics, and routine maintenance. Reliable support is always within reach whenever vehicle issues arise.",
+            "Connect with skilled mechanics for repairs, servicing, diagnostics, and routine maintenance. Track your car's repair history and get reliable support whenever issues arise.",
         image: images.mechanic,
     },
     {

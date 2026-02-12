@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { contactData } from "@/constant/data";
 import { CTAButton } from "../../components/ui/CTAButton";
@@ -13,6 +14,42 @@ import PageHero from "@/components/shared/PageHero";
 import { images } from "@/constant";
 
 const ContactUs = () => {
+    const mutation = useMutation({
+        mutationFn: async (values: any) => {
+            const payload = {
+                first_name: values.firstName,
+                last_name: values.lastName,
+                email: values.email,
+                contact_number: values.phone,
+                message: values.message,
+                company_name: values.company || "",
+            };
+
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+            const response = await fetch(`${baseUrl}/users/contact/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to send message");
+            }
+            return data;
+        },
+        onSuccess: () => {
+            toast.success("Message sent successfully! We'll get back to you soon.");
+            formik.resetForm();
+        },
+        onError: (error: any) => {
+            console.error("Contact form error:", error);
+            toast.error("Something went wrong. Please try again.");
+        },
+    });
+
     const formik = useFormik({
         initialValues: {
             firstName: "",
@@ -28,42 +65,10 @@ const ContactUs = () => {
             company: Yup.string(),
             email: Yup.string().email("Invalid email address").required("Email is required"),
             phone: Yup.string().required("Phone number is required"),
-            message: Yup.string().required("Message is required"),
+            message: Yup.string().required("Message is required").min(11, "Message must be at least 11 characters"),
         }),
-        onSubmit: async (values, { setSubmitting, resetForm }) => {
-            try {
-                const response = await fetch("/api/contact", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        name: `${values.firstName} ${values.lastName}`,
-                        email: values.email,
-                        message: `
-Name: ${values.firstName} ${values.lastName}
-Company: ${values.company || "N/A"}
-Phone: ${values.phone}
-Email: ${values.email}
-
-Message:
-${values.message}
-                        `,
-                        subject: `New Contact from ${values.firstName} ${values.lastName}` // Optional subject
-                    }),
-                });
-
-                if (response.ok) {
-                    toast.success("Message sent successfully! We'll get back to you soon.");
-                    resetForm();
-                } else {
-                    throw new Error("Failed to send message");
-                }
-            } catch (error) {
-                toast.error("Something went wrong. Please try again.");
-            } finally {
-                setSubmitting(false);
-            }
+        onSubmit: (values) => {
+            mutation.mutate(values);
         },
     });
 
@@ -113,7 +118,7 @@ ${values.message}
                                             <h3 className="text-lg font-bold text-white mb-1 group-hover:text-red-500 transition-colors">{item.title}</h3>
                                             <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
                                             
-                                            {item.text && (
+                                            {/* {item.text && (
                                                 <a 
                                                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.text)}`}
                                                     target="_blank"
@@ -122,7 +127,7 @@ ${values.message}
                                                 >
                                                     {item.text}
                                                 </a>
-                                            )}
+                                            )} */}
 
                                             {item.links && (
                                                 <div className="flex flex-col gap-1 mt-2">
@@ -150,82 +155,118 @@ ${values.message}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="w-full lg:w-[60%] p-10 lg:p-16 flex flex-col justify-center"
+                        className="w-full lg:w-[60%] sm:px-10 px-4 py-10 lg:p-16 flex flex-col justify-center relative min-h-[600px]"
                     >
-                        <form onSubmit={formik.handleSubmit} className="space-y-8">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {mutation.isSuccess ? (
+                             <motion.div 
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5 }}
+                                className="flex flex-col items-center justify-center text-center h-full space-y-6"
+                             >
+                                <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                                    <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                
+                                <div className="space-y-2">
+                                    <h3 className="text-3xl font-bold text-gray-900">Message Sent!</h3>
+                                    <p className="text-gray-500 text-lg max-w-md mx-auto">
+                                        Thank you for reaching out to us. We have received your message and will get back to you shortly.
+                                    </p>
+                                </div>
+
+                                <motion.div 
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3 }}
+                                    className="pt-6"
+                                >
+                                    <button 
+                                        onClick={() => mutation.reset()}
+                                        className="bg-gray-900 text-white px-8 py-3 rounded-xl font-medium hover:bg-gray-800 transition-all transform hover:-translate-y-1 shadow-lg"
+                                    >
+                                        Send another message
+                                    </button>
+                                </motion.div>
+                             </motion.div>
+                        ) : (
+                            <form onSubmit={formik.handleSubmit} className="space-y-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <Input
+                                        label="First name"
+                                        type="text"
+                                        id="firstName"
+                                        placeholder="Enter first name"
+                                        {...formik.getFieldProps("firstName")}
+                                        error={formik.touched.firstName && formik.errors.firstName}
+                                        className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
+                                    />
+                                    <Input
+                                        label="Last name"
+                                        type="text"
+                                        id="lastName"
+                                        placeholder="Enter last name"
+                                        {...formik.getFieldProps("lastName")}
+                                        error={formik.touched.lastName && formik.errors.lastName}
+                                        className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <Input
+                                        label="Email"
+                                        type="email"
+                                        id="email"
+                                        placeholder="you@company.com"
+                                        {...formik.getFieldProps("email")}
+                                        error={formik.touched.email && formik.errors.email}
+                                        className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
+                                    />
+                                    <Input
+                                        label="Contact number"
+                                        type="tel"
+                                        id="phone"
+                                        placeholder="+234..."
+                                        {...formik.getFieldProps("phone")}
+                                        error={formik.touched.phone && formik.errors.phone}
+                                        className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
+                                    />
+                                </div>
+
                                 <Input
-                                    label="First name"
+                                    label="Company name (Optional)"
                                     type="text"
-                                    id="firstName"
-                                    placeholder="Enter first name"
-                                    {...formik.getFieldProps("firstName")}
-                                    error={formik.touched.firstName && formik.errors.firstName}
+                                    id="company"
+                                    placeholder="Enter company name"
+                                    {...formik.getFieldProps("company")}
+                                    error={formik.touched.company && formik.errors.company}
                                     className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
                                 />
-                                <Input
-                                    label="Last name"
-                                    type="text"
-                                    id="lastName"
-                                    placeholder="Enter last name"
-                                    {...formik.getFieldProps("lastName")}
-                                    error={formik.touched.lastName && formik.errors.lastName}
-                                    className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
-                                />
-                            </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <Input
-                                    label="Email"
-                                    type="email"
-                                    id="email"
-                                    placeholder="you@company.com"
-                                    {...formik.getFieldProps("email")}
-                                    error={formik.touched.email && formik.errors.email}
-                                    className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
+                                <Textarea
+                                    label="Message"
+                                    id="message"
+                                    rows={5}
+                                    placeholder="Tell us how we can help..."
+                                    {...formik.getFieldProps("message")}
+                                    error={formik.touched.message && formik.errors.message}
+                                    className="bg-gray-50 border-gray-100 focus:bg-white transition-all"
+                                  
                                 />
-                                <Input
-                                    label="Contact number"
-                                    type="tel"
-                                    id="phone"
-                                    placeholder="+234..."
-                                    {...formik.getFieldProps("phone")}
-                                    error={formik.touched.phone && formik.errors.phone}
-                                    className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
-                                />
-                            </div>
 
-                            <Input
-                                label="Company name (Optional)"
-                                type="text"
-                                id="company"
-                                placeholder="Enter company name"
-                                {...formik.getFieldProps("company")}
-                                error={formik.touched.company && formik.errors.company}
-                                className="bg-gray-50 border-gray-100 focus:bg-white transition-all h-12"
-                            />
-
-                            <Textarea
-                                label="Message"
-                                id="message"
-                                rows={5}
-                                placeholder="Tell us how we can help..."
-                                {...formik.getFieldProps("message")}
-                                error={formik.touched.message && formik.errors.message}
-                                className="bg-gray-50 border-gray-100 focus:bg-white transition-all"
-                            />
-
-                            <div className="pt-4">
-                                <CTAButton
-                                    text={formik.isSubmitting ? "Sending..." : "Send Message"}
-                                    type="submit"
-                                    disabled={formik.isSubmitting}
-                                    className="bg-red-600 text-white w-full md:w-auto px-10 py-4 h-auto text-lg rounded-xl hover:bg-red-700 shadow-xl shadow-red-200 transition-all transform hover:-translate-y-1"
-                                />
-                            </div>
-                        </form>
+                                <div className="pt-4">
+                                    <CTAButton
+                                        text={mutation.isPending ? "Sending..." : "Send Message"}
+                                        type="submit"
+                                        disabled={mutation.isPending}
+                                        className="bg-red-600 text-white w-full md:w-auto px-10 py-4 h-auto text-lg rounded-xl hover:bg-red-700 shadow-xl shadow-red-200 transition-all transform hover:-translate-y-1 disabled:opacity-70 disabled:cursor-not-allowed"
+                                    />
+                                </div>
+                            </form>
+                        )}
                     </motion.div>
-
                 </div>
             </div>
         </section>
