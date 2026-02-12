@@ -91,23 +91,23 @@ const SignupPage = () => {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
-        
+
         <div className="absolute bottom-0 left-0 p-12 text-white z-10">
-             <div className="mb-6">
-                <Image src={icons.logo} alt="Oga Mechanic" width={180} height={180} className="" />
-             </div>
-             <h2 className="text-4xl font-bold mb-4 leading-tight">Join the community of <br/> smart vehicle owners.</h2>
-             <p className="text-gray-300 text-lg max-w-md leading-relaxed">
-                Connect with verified mechanics, track your vehicle history, and manage your repairs seamlessly.
-             </p>
+          <div className="mb-6">
+            <Image src={icons.logo} alt="Oga Mechanic" width={180} height={180} className="" />
+          </div>
+          <h2 className="text-4xl font-bold mb-4 leading-tight">Join the community of <br /> smart vehicle owners.</h2>
+          <p className="text-gray-300 text-lg max-w-md leading-relaxed">
+            Connect with verified mechanics, track your vehicle history, and manage your repairs seamlessly.
+          </p>
         </div>
       </div>
 
       {/* Right Side - Form */}
       <div className="w-full lg:w-[55%] flex flex-col justify-center items-center px-6 py-12 pb-32 lg:p-12 relative bg-white">
-        
+
         <div onClick={() => router.back()} className="absolute top-8 left-8 cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <ArrowLeft className="w-6 h-6 text-gray-600" />
+          <ArrowLeft className="w-6 h-6 text-gray-600" />
         </div>
 
         <div className="w-full max-w-lg space-y-8">
@@ -117,47 +117,36 @@ const SignupPage = () => {
             transition={{ duration: 0.5 }}
           >
             <div className="text-center lg:text-left mb-10">
-                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Create your account</h1>
-                <p className="text-gray-500 text-lg">
-                    Join Oga Mechanic today. It takes less than a minute.
-                </p>
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Create your account</h1>
+              <p className="text-gray-500 text-lg">
+                Join Oga Mechanic today. It takes less than a minute.
+              </p>
             </div>
 
             <form onSubmit={formik.handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input
-                    label="First name"
-                    id="firstName"
-                    type="text"
-                    placeholder="First name"
-                    {...formik.getFieldProps("firstName")}
-                    error={formik.errors.firstName}
-                    touched={formik.touched.firstName}
-                    // className="bg-gray-50 border-gray-100 h-12"
+                  label="First name"
+                  id="firstName"
+                  type="text"
+                  placeholder="First name"
+                  {...formik.getFieldProps("firstName")}
+                  error={formik.errors.firstName}
+                  touched={formik.touched.firstName}
+                // className="bg-gray-50 border-gray-100 h-12"
                 />
 
                 <Input
-                    label="Last name"
-                    id="lastName"
-                    type="text"
-                    placeholder="Last name"
-                    {...formik.getFieldProps("lastName")}
-                    error={formik.errors.lastName}
-                    touched={formik.touched.lastName}
-                    // className="bg-gray-50 border-gray-100 h-12"
+                  label="Last name"
+                  id="lastName"
+                  type="text"
+                  placeholder="Last name"
+                  {...formik.getFieldProps("lastName")}
+                  error={formik.errors.lastName}
+                  touched={formik.touched.lastName}
+                // className="bg-gray-50 border-gray-100 h-12"
                 />
               </div>
-
-              <Input
-                label="Email address"
-                id="email"
-                type="email"
-                placeholder="name@example.com"
-                {...formik.getFieldProps("email")}
-                error={formik.errors.email}
-                touched={formik.touched.email}
-                // className="bg-gray-50 border-gray-100 h-12"
-              />
 
               <Input
                 label="Phone Number"
@@ -167,7 +156,18 @@ const SignupPage = () => {
                 {...formik.getFieldProps("phone_number")}
                 error={formik.errors.phone_number}
                 touched={formik.touched.phone_number}
-                // className="bg-gray-50 border-gray-100 h-12"
+              // className="bg-gray-50 border-gray-100 h-12"
+              />
+
+              <Input
+                label="Email address"
+                id="email"
+                type="email"
+                placeholder="name@example.com"
+                {...formik.getFieldProps("email")}
+                error={formik.errors.email}
+                touched={formik.touched.email}
+              // className="bg-gray-50 border-gray-100 h-12"
               />
 
               <Input
@@ -178,9 +178,9 @@ const SignupPage = () => {
                 {...formik.getFieldProps("password")}
                 error={formik.errors.password}
                 touched={formik.touched.password}
-                // className="bg-gray-50 border-gray-100 h-12"
+              // className="bg-gray-50 border-gray-100 h-12"
               />
-       
+
               <button
                 type="submit"
                 disabled={mutation.isPending}
@@ -193,7 +193,7 @@ const SignupPage = () => {
                 )}
               </button>
 
-              
+
             </form>
           </motion.div>
         </div>
