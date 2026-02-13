@@ -1,57 +1,32 @@
-import { MetadataRoute } from 'next'
- 
+import { MetadataRoute } from 'next';
+import { routes } from '@/constant/routes';
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Primary domain - change this if you want .net to be primary
-  const baseUrl = 'https://ogamechanic.org'
+  const baseUrl = 'https://ogamechanic.org';
   
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/find-mechanic`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/buy-car`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/sell-car`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/ride`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/gas`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-  ]
+  // Define static routes
+  // Using the routes object from constants to ensure consistency
+  // If routes are just strings, we map them directly. If they are objects, we extract the path.
+  const staticRoutes = [
+    '', // Home
+    routes.about,
+    routes.services,
+    routes.contact,
+    routes.signup,
+    routes.terms,
+    routes.privacy,
+    // Add other public routes here
+  ].map((route) => {
+    // Handle if route is just a path string
+    const path = route.startsWith('/') ? route : `/${route}`;
+    // Remove double slashes if any (except protocol)
+    return path.replace('//', '/');
+  });
+
+  return staticRoutes.map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: route === '' ? 'daily' : 'weekly',
+    priority: route === '' ? 1 : 0.8,
+  }));
 }

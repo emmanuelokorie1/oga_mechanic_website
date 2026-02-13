@@ -1,12 +1,13 @@
-import { MetadataRoute } from 'next'
- 
+import { MetadataRoute } from 'next';
+
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = 'https://ogamechanic.org';
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: '/api/',
+      disallow: ['/private/'], // Example disallowed route
     },
-    sitemap: 'https://ogamechanic.org/sitemap.xml',
-  }
+    sitemap: `${baseUrl}/sitemap.xml`,
+  };
 }
