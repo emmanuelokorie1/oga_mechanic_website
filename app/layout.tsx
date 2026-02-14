@@ -8,6 +8,7 @@ import SmoothScroller from "@/components/layout/SmoothScroller";
 import BackToTop from "@/components/ui/BackToTop";
 import { icons } from "@/constant";
 import ChatWidget from "@/components/ui/ChatWidget";
+import JsonLd from "@/components/seo/JsonLd";
 
 const firaSans = Fira_Sans({
   subsets: ["latin"],
@@ -23,11 +24,21 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Oga Mechanic Global - Your Ultimate Auto Hub",
-  description: "Buy & sell cars, find expert mechanics, and book rides—all in one place.",
-  metadataBase: new URL("https://ogamechanic.org"), // Assuming this domain, can be updated
-  keywords: ["mechanic", "auto repair", "buy cars", "sell cars", "ride booking", "nigeria", "auto parts"],
+  metadataBase: new URL("https://ogamechanic.org"),
+  title: {
+    default: "Oga Mechanic Global - Your Ultimate Auto Hub",
+    template: "%s | Oga Mechanic Global"
+  },
+  description: "The complete automobile experience in Nigeria. Buy & sell cars, find expert mechanics, book rides, rent vehicles, and get 24/7 towing services.",
+  keywords: ["mechanic", "auto repair", "buy cars", "sell cars", "ride booking", "nigeria", "auto parts", "car rental", "towing service", "vehicle maintenance"],
   authors: [{ name: "Oga Mechanic Team" }],
+  creator: "Oga Mechanic Global",
+  publisher: "Oga Mechanic Global",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
     title: "Oga Mechanic Global - Your Ultimate Auto Hub",
     description: "The complete automobile experience. Buy & sell cars, find expert mechanics, rental, gas supply, and book rides.",
@@ -37,26 +48,49 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: icons.logo.src,
+        url: "/opengraph-image.png", // Start serving this dynamically if needed, or put a static file in public
         width: 1200,
         height: 630,
         alt: "Oga Mechanic Global - Your Ultimate Auto Hub",
       },
+      {
+        url: icons.logo.src,
+        width: 800,
+        height: 600,
+        alt: "Oga Mechanic Logo",
+      }
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Oga Mechanic Global - Your Ultimate Auto Hub",
     description: "The complete automobile experience. Buy & sell cars, find expert mechanics, rental, gas supply, and book rides.",
-    images: [icons.logo.src, icons.logo1.src, icons.logo2.src],
+    site: "@ogamechanic", // Update with actual handle if available
+    creator: "@ogamechanic",
+    images: [icons.logo.src], // Ideally use a large landscape image
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: "https://ogamechanic.org",
+  },
+  category: "automotive",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#B70207",
+  themeColor: "#D10000", // Updated to match brand red
 };
 
 export default function RootLayout({
@@ -73,6 +107,7 @@ export default function RootLayout({
           <SmoothScroller>
             <Header />
             {children}
+            <JsonLd />
             {/* <TawkTo /> */}
             {/* <ChatWidget /> */}
             <Toaster position="top-center" reverseOrder={false} />
